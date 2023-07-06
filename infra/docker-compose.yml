@@ -1,0 +1,41 @@
+version: '3.1'
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis-data:/data
+    command: redis-server --appendonly yes
+  app1:
+    build:
+      context: ../app1/
+      dockerfile: ../app-base/Dockerfile
+    ports:
+      - 8000:8000
+    links:
+      - redis
+  app2:
+    build:
+      context: ../app2/
+      dockerfile: ../app-base/Dockerfile
+    ports:
+      - 8001:8000
+    links:
+      - redis
+    command: uvicorn main:api --host 0.0.0.0 --port 8000
+  playwright:
+    build:
+      context: ../playwright/
+      dockerfile: ../playwright/Dockerfile
+    ipc: host
+    ports:
+      - 3000:3000
+    volumes:
+      - ./playwright-reports:/playwright/playwright-reports
+      - ./test-results:/playwright/test-results
+      - ../playwright/tests:/playwright/tests
+    
+    links:
+      - app1
+      - app2
