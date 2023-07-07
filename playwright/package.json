@@ -4,7 +4,8 @@
   "scripts": {
     "test": "playwright test",
     "show": "playwright show-report",
-    "generate": "playwright codegen"
+    "generate": "playwright codegen",
+    "trace": "playwright show-trace"
   },
   "dependencies": {
     "playwright": "^1.35.1"

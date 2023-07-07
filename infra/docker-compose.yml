@@ -32,10 +32,9 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./playwright-reports:/playwright/playwright-reports
+      - ./playwright-report:/playwright/playwright-report
       - ./test-results:/playwright/test-results
       - ../playwright/tests:/playwright/tests
-    
     links:
       - app1
       - app2
